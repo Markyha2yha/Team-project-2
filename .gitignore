@@ -1,0 +1,30 @@
+### PyCharm / JetBrains IDE ###
+.idea/
+*.iml
+*.iws
+out/
+
+### Python / Virtual Environments ###
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
+
+### Django ###
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+static/
+
+### OS files (Optional but recommended) ###
+.DS_Store
+Thumbs.db
