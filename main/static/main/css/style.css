@@ -1,0 +1,163 @@
+
+/* --- Прибираємо початкові стилі --- */
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+a{
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover{
+    color: inherit;
+}
+
+ul{
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+body{
+    font-family: Roboto;
+}
+
+button{
+    background-color: inherit;
+}
+
+
+/* --- Стилі --- */
+
+.flex-align{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- Navbar --- */
+
+.nav-border{
+    border-right: 1px solid #e5e5e5;
+    border-left: 1px solid #e5e5e5;
+}
+
+.bg-color-lightgray{
+    background-color: #F8F8F8;
+}
+
+.bg-color-darkgray{
+    background-color: #e9e7e8;
+}
+
+.nav-bg-color{
+    width: 100%;
+}
+
+/* --- Navbar верхня частина --- */
+
+.nav-container{
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.nav-container ul{
+    display: flex;
+}
+
+.nav-container li{
+    padding: 10px 20px;
+    border-right: 1px solid #e5e5e5;
+}
+
+.nav-container img{
+    margin-right: 7px;
+}
+
+.margin-container{
+    margin: 0px 311px 0px 311px;
+}
+
+
+/* --- Navbar середня частина --- */
+
+.padding-container{
+    padding-right: 30px;
+}
+
+.nav-list{
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.searchbar{
+    border-radius: 30px;
+    border-right: none;
+
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.btn-search{
+    border: 1px solid #ced5da;
+    border-left:  1px solid transparent;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    padding: 2px 3px 3px 0px;
+    background-color: white;
+}
+
+.searchbar-box{
+    width: 377px;
+    margin-left: 30px;
+}
+
+.nav-logo-style{
+    padding: 20px 41px;
+    border-right: 1px solid #e5e5e5;
+    border-left: 1px solid #e5e5e5;
+    background-color: #FFFFFF;
+}
+
+/* --- Navbar нижня частина --- */
+
+.small-text{
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.bold-medium-text{
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.element-gap{
+    gap: 15px;
+}
+
+.dropdown-btn-style button{
+    text-transform: uppercase;
+    border: none;
+}
+
+.dropdown-btn-style li{
+    text-transform: uppercase;
+}
+
+.element-gap02{
+    gap: 23px;
+}
+
+.nav-btn-style{
+    background-color: #F8F8F8;
+    padding: 15px 41.5px;
+    border-right: 1px solid #e5e5e5 !important; /* обходимо border: none */
+    border-left: 1px solid #e5e5e5 !important;
+}
+
+.menu-btn-style{
+}
