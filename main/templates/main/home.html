@@ -8,7 +8,86 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-
+     <!-- 1 БЛОК (BANNER) -->
+    <div class="banner-box">
+        <div class="banner-left">
+ 
+            <!-- Слайдер -->
+            <div id="bannerSlider" class="carousel slide banner-slider" data-bs-ride="carousel"> <!-- bootstrap -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="banner-slide flex-align">
+                            <div>
+                                <div class="banner-brand">eVolve</div>
+                                <div class="banner-title">Quality foods<br>For your pet</div>
+                                <a href="#" class="banner-btn">Discover now</a>
+                            </div>
+                            <img src="{% static 'main/images/banner-img.png'%}" alt="eVolve">
+                        </div>
+                    </div>
+ 
+                    <div class="carousel-item">
+                        <div class="banner-slide flex-align">
+                            <div>
+                                <div class="banner-brand">Swoo.Foods</div>
+                                <div class="banner-title">Healthy meals<br>For happy pets</div>
+                                <a href="#" class="banner-btn">Shop now</a>
+                            </div>
+                            <img src="{% static 'main/images/banner-img.png'%}" alt="Swoo.Foods">
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="banner-counter flex-align">
+                    <button data-bs-target="#bannerSlider" data-bs-slide="prev">&#8249;</button>
+                    <span><span id="slideNum">1</span> / 2</span>
+                    <button data-bs-target="#bannerSlider" data-bs-slide="next">&#8250;</button>
+                </div>
+            </div>
+ 
+            <!-- Спонсори -->
+            <div class="sponsor-box flex-align bg-color-darkgray">
+                <div class="sponsor-title"><b>Humble</b><br>Brand Sponsor</div>
+                <ul class="sponsor-list flex-align">
+                    <li><img src="{% static 'main/images/sponsor01.png'%}" alt="Mighty Hunter"></li>
+                    <li><img src="{% static 'main/images/sponsor02.png'%}" alt="Woof Woof"></li>
+                    <li><img src="{% static 'main/images/sponsor03.png'%}" alt="Sunset in the Blue"></li>
+                    <li><img src="{% static 'main/images/sponsor04.png'%}" alt="Well Whale"></li>
+                    <li><img src="{% static 'main/images/sponsor05.png'%}" alt="The Greater Flamingo"></li>
+                </ul>
+            </div>
+        </div>
+ 
+        <!-- Картки справа -->
+        <div class="banner-right">
+            <div class="promo-box01 flex-align">
+                <div>
+                    <div class="promo-label">Stogi</div>
+                    <div class="promo-title">Packet Top Resistance Food..</div>
+                    <a href="#" class="banner-btn">Shop now</a>
+                </div>
+                <img src="{% static 'main/images/pedigree-img.png'%}" alt="Pedigree">
+            </div>
+ 
+            <div class="promo-box02">
+                <img src="{% static 'main/images/dogge-img.png'%}" alt="Dogge">
+                <div class="promo-brand">Swoo.Foods</div>
+                <div class="promo-info">
+                    <div class="promo-name"><b>DOGGE</b><br>DEVISOI<br>FOOD</div>
+                    <div class="promo-from">FROM</div>
+                    <div class="promo-price">$169</div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <!-- Лічильник слайдів -->
+    <script>
+        document.getElementById('bannerSlider').addEventListener('slid.bs.carousel', function(e){
+            document.getElementById('slideNum').textContent = e.to + 1;
+        });
+    </script>
+    
     <!-- 2 БЛОК (PETS FOOD CATEGORIES) -->
     <div class="category-box">
         <div class="padding-box01">
