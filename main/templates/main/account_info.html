@@ -24,12 +24,12 @@
             <p>No gmail</p>
         {% endif %}
 
-        <ul class="btn-list">
-            <li class="green-btn"><a href="#">Account info<img src="{% static 'main/images/white-right-arrow02.png' %}"></a></li>
-            <li><a href="#">My order<img src="{% static 'main/images/right-arrow02.png' %}"></a></li>
-            <li><a href="#">My address<img src="{% static 'main/images/right-arrow02.png' %}"></a></li>
-            <li><a href="#">Change password<img src="{% static 'main/images/right-arrow02.png' %}"></a></li>
-        </ul>
+<!--        <ul class="btn-list">-->
+<!--            <li><a href="#">Account info<img src="{% static 'main/images/right-arrow02.png' %}"></a></li>-->
+<!--            <li><a href="#">My order<img src="{% static 'main/images/right-arrow02.png' %}"></a></li>-->
+<!--            <li><a href="#">My address<img src="{% static 'main/images/right-arrow02.png' %}"></a></li>-->
+<!--            <li><a href="#">Change password<img src="{% static 'main/images/right-arrow02.png' %}"></a></li>-->
+<!--        </ul>-->
     </div>
 
     <div class="account-info-box">
@@ -52,6 +52,10 @@
             <div class="row">
                 <label>Phone number (optional)</label>
                 <input type="text" class="form-control" placeholder="Phone number">
+            </div>
+            <div class="row">
+                <label>Address</label>
+                <input type="text" class="form-control" placeholder="Address">
             </div>
             <button type="submit" class="btn btn-success">Save</button>
         </form>
