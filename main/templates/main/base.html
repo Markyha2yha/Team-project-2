@@ -126,18 +126,87 @@
 
 
 
-        <!------- MAIN -------->
-        <main class="margin-container">
-            <div>
-                {% block content %}
-                {% endblock %}
-            </div>
-        </main>
+    <!------- MAIN -------->
+    <main class="margin-container">
+        <div>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
 
 
     <!------- Footer -------->
-    <footer>
-
+    <footer class="footer-box">
+        <div class="margin-container">
+            <ul class="flex-align">
+                <li>
+                    <div>Be the first to get the latest news about trends, promotions and much more!</div>
+                     <form method="GET" action="">
+                        <div class="input-group">  <!-- bootstrap -->
+                             <span class="input-group-text bg-white border-0" id="inner-image">
+                                 <img class="email-img-style" src="{% static 'main/images/mail-symb.png'%}" alt="mail">
+                             </span>
+                            <input class="email-bar form-control" type="search" name="search" placeholder="Enter your email address">
+                            <div class="input-group-prepend">
+                                <button class="btn-arrow" type="submit"><img src="{% static 'main/images/right-arrow.png'%}" alt="arrow"></button>
+                            </div>
+                        </div>
+                     </form>
+                    <div>By subscribing, you accept the Privacy Policy</div>
+                    <ul class="list-align01">
+                        <li><a href="#"><img src="{% static 'main/images/twitter-logo.png'%}" alt=""></a></li>
+                        <li><a href="#"><img src="{% static 'main/images/facebook-logo.png'%}" alt=""></a></li>
+                        <li><a href="#"><img src="{% static 'main/images/inst-logo.png'%}" alt=""></a></li>
+                        <li><a href="#"><img src="{% static 'main/images/yt-logo.png'%}" alt=""></a></li>
+                    </ul>
+                </li>
+                <li>
+                    <h5>Get In Touch</h5>
+                    <ul>
+                        <li>Elizaberth Ave Str, San Jose, CA, 90025</li>
+                        <li>+0082 561 43 34</li>
+                        <li>contact@Swoopets.com</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Payment</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Guest purchase</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Gift Card</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li><a href="#">About Store</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Editorial</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <hr>
+            <div class="flex-align">
+                <ul class="list-align02">
+                    <li>Accept for</li>
+                    <li><img src="{% static 'main/images/paypal-logo.png'%}" alt=""></li>
+                    <li><img src="{% static 'main/images/pay2.png' %}" alt=""></li>
+                    <li><img src="{% static 'main/images/pay3.png' %}" alt=""></li>
+                    <li><img src="{% static 'main/images/pay4.png' %}" alt=""></li>
+                    <li><img src="{% static 'main/images/pay5.png' %}" alt=""></li>
+                </ul>
+                <a href="#"><img src="{% static 'main/images/shop-logo02.png'%}" alt="shop logo"></a>
+                <div class="element-gap03">
+                    <img src="{% static 'main/images/earth-logo.png' %}" alt="lang">
+                    <a href="#">Language: English</a>
+                </div>
+            </div>
+            <hr>
+            <div class="align-center">© 2024 Swoo . All Rights Reserved.</div>
+        </div>
     </footer>
     <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

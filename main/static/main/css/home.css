@@ -56,6 +56,7 @@ h3{
     background-color: #F6AB4A;
     padding: 24px 47px;
     border-radius: 10px;
+    margin-bottom: 30px;
 
     text-transform: uppercase;
     color: white;
@@ -64,9 +65,42 @@ h3{
     line-height: 32px;
 }
 
-/* */
 
-.products-style01{}
+/* 5 БЛОК (реклама Klarna) */
+
+.ad-box{
+    padding: 8px 48px;
+    background-color: #E9E7E8;
+    border-radius: 8px;
+}
+
+.gray-sm-text{
+    color: #666666;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 19.5px;
+}
+
+.purp-big-text{
+    text-transform: capitalize;
+    color: #362526;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+}
+
+.thin-text{
+    font-weight: 300;
+    font-size: 30px;
+    line-height: 36px;
+}
+
+.white-button{
+    text-transform: uppercase;
+    background-color: #FFFFFF;
+    padding: 10px 19px;
+    border-radius: 8px;
+}
 
 /* --- 1 БЛОК (BANNER) --- */
 
