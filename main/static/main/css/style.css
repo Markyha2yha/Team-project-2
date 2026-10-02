@@ -38,6 +38,10 @@ button{
 
 }
 
+hr{
+    color: #c7c7c7;
+}
+
 /* --- Navbar --- */
 
 .nav-border{
@@ -161,4 +165,58 @@ button{
 }
 
 .menu-btn-style{
+}
+
+
+/* Footer */
+
+.email-enter{
+    border-radius: 10px;
+    border: none;
+    padding: 17px 20px;
+}
+
+.list-align01{
+    display: flex;
+    gap: 20px;
+}
+
+.list-align02{
+    display: flex;
+    gap: 14px;
+}
+
+.footer-box{
+    margin-top: 20px; /*ТИМЧАСОВО*/
+    background-image: url("../images/footer-bg.png");
+    background-color: #e9e7e8;
+    padding: 79px 0px 30px 0px;
+}
+
+.element-gap03{
+    gap: 4px;
+}
+
+.align-center{
+    text-align: center;
+}
+
+.btn-arrow{
+    border: none;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 19px 29px 20px 30px;
+    background-color: white;
+}
+
+.email-bar{
+    border: none;
+    border-radius: 10px;
+
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.email-img-style{
+    height: 19px;
 }
