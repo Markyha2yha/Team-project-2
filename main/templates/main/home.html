@@ -11,7 +11,7 @@
      <!-- 1 БЛОК (BANNER) -->
     <div class="banner-box">
         <div class="banner-left">
- 
+
             <!-- Слайдер -->
             <div id="bannerSlider" class="carousel slide banner-slider" data-bs-ride="carousel"> <!-- bootstrap -->
                 <div class="carousel-inner">
@@ -25,7 +25,7 @@
                             <img src="{% static 'main/images/banner-img.png'%}" alt="eVolve">
                         </div>
                     </div>
- 
+
                     <div class="carousel-item">
                         <div class="banner-slide flex-align">
                             <div>
@@ -37,14 +37,14 @@
                         </div>
                     </div>
                 </div>
- 
+
                 <div class="banner-counter flex-align">
                     <button data-bs-target="#bannerSlider" data-bs-slide="prev">&#8249;</button>
                     <span><span id="slideNum">1</span> / 2</span>
                     <button data-bs-target="#bannerSlider" data-bs-slide="next">&#8250;</button>
                 </div>
             </div>
- 
+
             <!-- Спонсори -->
             <div class="sponsor-box flex-align bg-color-darkgray">
                 <div class="sponsor-title"><b>Humble</b><br>Brand Sponsor</div>
@@ -57,7 +57,7 @@
                 </ul>
             </div>
         </div>
- 
+
         <!-- Картки справа -->
         <div class="banner-right">
             <div class="promo-box01 flex-align">
@@ -68,7 +68,7 @@
                 </div>
                 <img src="{% static 'main/images/pedigree-img.png'%}" alt="Pedigree">
             </div>
- 
+
             <div class="promo-box02">
                 <img src="{% static 'main/images/dogge-img.png'%}" alt="Dogge">
                 <div class="promo-brand">Swoo.Foods</div>
@@ -80,77 +80,141 @@
             </div>
         </div>
     </div>
- 
+
     <!-- Лічильник слайдів -->
     <script>
         document.getElementById('bannerSlider').addEventListener('slid.bs.carousel', function(e){
             document.getElementById('slideNum').textContent = e.to + 1;
         });
     </script>
-    
-    <!-- 2 БЛОК (PETS FOOD CATEGORIES) -->
-    <div class="category-box">
-        <div class="padding-box01">
-            <h3>Pets food categories</h3>
-            <ul class="category-list-align">
-                <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/cat-icon.png'%}" alt="Cat">
-                        <div>Cat</div>
-                    </a>
-                </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/dog-icon.png'%}" alt="Dog">
-                        <div>Dog</div>
-                    </a>
-                </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/parrot-icon.png'%}" alt="Parrot">
-                        <div>Parrot</div>
-                    </a>
-                </li>
+<!-- 2 БЛОК (PETS FOOD CATEGORIES) -->
+<div class="category-box">
+    <div class="padding-box01">
+        <h3>Pets food categories</h3>
+        <ul class="category-list-align">
+            <li>
+                <a href="#">
+                    <img src="{% static 'main/images/cat-icon.png'%}" alt="Cat">
+                    <div>Cat</div>
+                </a>
+            </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/fish-icon.png'%}" alt="Fish">
-                        <div>Fish</div>
-                    </a>
-                </li>
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/dog-icon.png'%}" alt="Dog">
+                    <div>Dog</div>
+                </a>
+            </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/horse-icon.png'%}" alt="Horse">
-                        <div>Horse</div>
-                    </a>
-                </li>
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/parrot-icon.png'%}" alt="Parrot">
+                    <div>Parrot</div>
+                </a>
+            </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/rabbit-icon.png'%}" alt="Rabbit">
-                        <div>Rabbit</div>
-                    </a>
-                </li>
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/fish-icon.png'%}" alt="Fish">
+                    <div>Fish</div>
+                </a>
+            </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/hen-icon.png'%}" alt="Hen">
-                        <div>Hen</div>
-                    </a>
-                </li>
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/horse-icon.png'%}" alt="Horse">
+                    <div>Horse</div>
+                </a>
+            </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/tortoise-icon.png'%}" alt="Tortoise">
-                        <div>Tortoise</div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="categories-underbar">12k+ active users everyday</div>
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/rabbit-icon.png'%}" alt="Rabbit">
+                    <div>Rabbit</div>
+                </a>
+            </li>
+
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/hen-icon.png'%}" alt="Hen">
+                    <div>Hen</div>
+                </a>
+            </li>
+
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/tortoise-icon.png'%}" alt="Tortoise">
+                    <div>Tortoise</div>
+                </a>
+            </li>
+        </ul>
     </div>
-    <!-- 3 БЛОК (HAND-PICKED FOODS) -->
+    <div class="categories-underbar">12k+ active users everyday</div>
+</div>
+
+<!-- 3 БЛОК (HAND-PICKED FOODS[ РЕКОМЕНДОВАНІ ПРОДУКТИ]), поки без стилів -->
+<div class="category-box">
+    <div class="padding-box01">
+        <div class="flex-align">
+            <h3>Hand-picked foods</h3>
+            <a href="#" class="view-all-style">View all <img src="{% static 'main/images/right-arrow.png'%}" alt="arrow"></a>
+        </div>
+        <div class="flex-align products-style01">
+            {% if dbitems %}  <!-- Має витягувати з бази даних ті товари, які ніби обрані магазином-->
+                {% for i in dbitems %}
+                    <div>
+                        <img src="{{ i.main_photo.url}}" alt="product">
+
+                        <!-- в улюблених -->
+                        {% if i.inFav %}
+                            <img src="{% static 'main/images/heart-in-fav.png'%}" alt="add to fav">
+                        {% else %}
+                            <img src="{% static 'main/images/heart-not-in-fav.png'%}" alt="in fav">
+                        {% endif %}
+                        <h2>{{i.title}}</h2>
+                        <p>${{i.price}}</p>
+
+                        <!-- безкоштовна доставка -->
+                        {% if i.freeShipp %}
+                            <p>Free shipping</p>
+                        {% endif %}
+
+                        <!-- має подарунок -->
+                        {% if i.freeGift %}
+                            <p>Free gift</p>
+                        {% endif %}
+
+                        <!-- є на складі -->
+                        {% if i.inStock %}
+                            <div><img src="{% static 'main/images/yes-symb.png'%}" alt="there"><p>In stock</p></div>
+                        {% else %}
+                             <div><img src="{% static 'main/images/no-symb.png'%}" alt="notThere"><p>Not in stock</p></div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div>
+                    <p>No products at the moment :[</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<!-- 3.1 БЛОК  -->
+<div>
+    <ul class="flex-align orange-box">
+        <li><img src="{% static 'main/images/car-symb.png'%}"> free shipping over $199 </li>
+        <li><img src="{% static 'main/images/round-arrow-symb.png'%}"> 30 days money back </li>
+        <li><img src="{% static 'main/images/shield-symb.png'%}"> 100% secure payment </li>
+        <li><img src="{% static 'main/images/animal-symb.png'%}">  free product return </li>
+        <li><img src="{% static 'main/images/headphones.png'%}">  24/7 online & offline support</li>
+    </ul>
+</div>
+
+<!-- 4 БЛОК  -->
+
 {% endblock %}
