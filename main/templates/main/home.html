@@ -9,69 +9,132 @@
 
 {% block content %}
 
-    <!-- 2 БЛОК (PETS FOOD CATEGORIES) -->
-    <div class="category-box">
-        <div class="padding-box01">
-            <h3>Pets food categories</h3>
-            <ul class="category-list-align">
-                <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/cat-icon.png'%}" alt="Cat">
-                        <div>Cat</div>
-                    </a>
-                </li>
+<!-- 2 БЛОК (PETS FOOD CATEGORIES) -->
+<div class="category-box">
+    <div class="padding-box01">
+        <h3>Pets food categories</h3>
+        <ul class="category-list-align">
+            <li>
+                <a href="#">
+                    <img src="{% static 'main/images/cat-icon.png'%}" alt="Cat">
+                    <div>Cat</div>
+                </a>
+            </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/dog-icon.png'%}" alt="Dog">
-                        <div>Dog</div>
-                    </a>
-                </li>
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/dog-icon.png'%}" alt="Dog">
+                    <div>Dog</div>
+                </a>
+            </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/parrot-icon.png'%}" alt="Parrot">
-                        <div>Parrot</div>
-                    </a>
-                </li>
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/parrot-icon.png'%}" alt="Parrot">
+                    <div>Parrot</div>
+                </a>
+            </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/fish-icon.png'%}" alt="Fish">
-                        <div>Fish</div>
-                    </a>
-                </li>
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/fish-icon.png'%}" alt="Fish">
+                    <div>Fish</div>
+                </a>
+            </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/horse-icon.png'%}" alt="Horse">
-                        <div>Horse</div>
-                    </a>
-                </li>
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/horse-icon.png'%}" alt="Horse">
+                    <div>Horse</div>
+                </a>
+            </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/rabbit-icon.png'%}" alt="Rabbit">
-                        <div>Rabbit</div>
-                    </a>
-                </li>
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/rabbit-icon.png'%}" alt="Rabbit">
+                    <div>Rabbit</div>
+                </a>
+            </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/hen-icon.png'%}" alt="Hen">
-                        <div>Hen</div>
-                    </a>
-                </li>
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/hen-icon.png'%}" alt="Hen">
+                    <div>Hen</div>
+                </a>
+            </li>
 
-                 <li>
-                    <a href="#">
-                        <img src="{% static 'main/images/tortoise-icon.png'%}" alt="Tortoise">
-                        <div>Tortoise</div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="categories-underbar">12k+ active users everyday</div>
+             <li>
+                <a href="#">
+                    <img src="{% static 'main/images/tortoise-icon.png'%}" alt="Tortoise">
+                    <div>Tortoise</div>
+                </a>
+            </li>
+        </ul>
     </div>
-    <!-- 3 БЛОК (HAND-PICKED FOODS) -->
+    <div class="categories-underbar">12k+ active users everyday</div>
+</div>
+
+<!-- 3 БЛОК (HAND-PICKED FOODS[ РЕКОМЕНДОВАНІ ПРОДУКТИ]), поки без стилів -->
+<div class="category-box">
+    <div class="padding-box01">
+        <div class="flex-align">
+            <h3>Hand-picked foods</h3>
+            <a href="#" class="view-all-style">View all <img src="{% static 'main/images/right-arrow.png'%}" alt="arrow"></a>
+        </div>
+        <div class="flex-align products-style01">
+            {% if dbitems %}  <!-- Має витягувати з бази даних ті товари, які ніби обрані магазином-->
+                {% for i in dbitems %}
+                    <div>
+                        <img src="{{ i.main_photo.url}}" alt="product">
+
+                        <!-- в улюблених -->
+                        {% if i.inFav %}
+                            <img src="{% static 'main/images/heart-in-fav.png'%}" alt="add to fav">
+                        {% else %}
+                            <img src="{% static 'main/images/heart-not-in-fav.png'%}" alt="in fav">
+                        {% endif %}
+                        <h2>{{i.title}}</h2>
+                        <p>${{i.price}}</p>
+
+                        <!-- безкоштовна доставка -->
+                        {% if i.freeShipp %}
+                            <p>Free shipping</p>
+                        {% endif %}
+
+                        <!-- має подарунок -->
+                        {% if i.freeGift %}
+                            <p>Free gift</p>
+                        {% endif %}
+
+                        <!-- є на складі -->
+                        {% if i.inStock %}
+                            <div><img src="{% static 'main/images/yes-symb.png'%}" alt="there"><p>In stock</p></div>
+                        {% else %}
+                             <div><img src="{% static 'main/images/no-symb.png'%}" alt="notThere"><p>Not in stock</p></div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div>
+                    <p>No products at the moment :[</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<!-- 3.1 БЛОК  -->
+<div>
+    <ul class="flex-align orange-box">
+        <li><img src="{% static 'main/images/car-symb.png'%}"> free shipping over $199 </li>
+        <li><img src="{% static 'main/images/round-arrow-symb.png'%}"> 30 days money back </li>
+        <li><img src="{% static 'main/images/shield-symb.png'%}"> 100% secure payment </li>
+        <li><img src="{% static 'main/images/animal-symb.png'%}">  free product return </li>
+        <li><img src="{% static 'main/images/headphones.png'%}">  24/7 online & offline support</li>
+    </ul>
+</div>
+
+<!-- 4 БЛОК  -->
+
 {% endblock %}

@@ -27,7 +27,7 @@ h3{
 .category-box{
     border: 1px solid #e5e5e5;
     border-radius: 10px;
-
+    margin-bottom: 30px;
 }
 
 .padding-box01{
@@ -41,6 +41,29 @@ h3{
 
     font-weight: 300;
     font-size: 24px;
-    line-height: 28.8px;
+    line-height: 28px;
     text-align: center;
 }
+
+.view-all-style{
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.orange-box{
+    background-color: #F6AB4A;
+    padding: 24px 47px;
+    border-radius: 10px;
+
+    text-transform: uppercase;
+    color: white;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 32px;
+}
+
+/* */
+
+.products-style01{}
