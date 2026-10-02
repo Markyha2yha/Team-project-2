@@ -1,0 +1,65 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/account_info.css' %}">
+{% endblock %}
+
+{% block title %}Account info{% endblock %}
+
+{% block content %}
+
+<div class="account-box01"> <!-- Має витягувати з бази даних -->
+    <div class="gray-box round-edges01">
+        <img class="round-edges01" src="{% static 'main/images/no-avatar.png' %}" alt="avatar">
+        {% if user.username %}
+            <h3>{{user.username}}</h3>
+        {% else %}
+            <h3>No username</h3>
+        {% endif %}
+
+        {% if user.gmail %}
+            <p>{{gmail}}</p>
+        {% else %}
+            <p>No gmail</p>
+        {% endif %}
+
+<!--        <ul class="btn-list">-->
+<!--            <li><a href="#">Account info<img src="{% static 'main/images/right-arrow02.png' %}"></a></li>-->
+<!--            <li><a href="#">My order<img src="{% static 'main/images/right-arrow02.png' %}"></a></li>-->
+<!--            <li><a href="#">My address<img src="{% static 'main/images/right-arrow02.png' %}"></a></li>-->
+<!--            <li><a href="#">Change password<img src="{% static 'main/images/right-arrow02.png' %}"></a></li>-->
+<!--        </ul>-->
+    </div>
+
+    <div class="account-info-box">
+        <h2>Account info</h2>
+        <form>
+            <div class="row">
+                <div class="col">
+                    <label>First name</label>
+                    <input type="text" class="form-control" placeholder="First name">
+                </div>
+                <div class="col">
+                    <label>Last name</label>
+                    <input type="text" class="form-control" placeholder="Last name">
+                </div>
+            </div>
+            <div class="row">
+                <label>Email address</label>
+                <input type="text" class="form-control" placeholder="Email address">
+            </div>
+            <div class="row">
+                <label>Phone number (optional)</label>
+                <input type="text" class="form-control" placeholder="Phone number">
+            </div>
+            <div class="row">
+                <label>Address</label>
+                <input type="text" class="form-control" placeholder="Address">
+            </div>
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

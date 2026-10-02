@@ -11,3 +11,6 @@ def about(request):
 
 def contacts(request):
     return render(request, 'main/home.html')
+
+def account_info(request):
+    return render(request, 'main/account_info.html')

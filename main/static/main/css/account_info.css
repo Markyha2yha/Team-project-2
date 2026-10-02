@@ -1,0 +1,55 @@
+.gray-box{
+    background-color: #FAFAFA;
+    padding: 20px;
+    margin-top: 16px;
+    max-width: 254px;
+}
+
+.round-edges01{
+    border-radius: 10px;
+}
+
+h3{
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+p{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 28px;
+    color: #666666;
+}
+
+.btn-list li{
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+}
+
+.btn-list a{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-list img{
+    height: 14px;
+}
+
+.account-box01{
+    display: flex;
+    gap: 79px;
+    margin-top: 20px;
+}
+
+.account-info-box{
+    width: 965px;
+}
+
+.green-btn{
+    background-color: #1ABA1A !important;
+    color: white !important;
+}
