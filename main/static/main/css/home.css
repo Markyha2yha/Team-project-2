@@ -67,3 +67,198 @@ h3{
 /* */
 
 .products-style01{}
+
+/* --- 1 БЛОК (BANNER) --- */
+
+.banner-box{
+    display: flex;
+    gap: 10px;
+    margin: 24px 0px;
+}
+
+.banner-left{
+    width: 75%;
+}
+
+.banner-right{
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* --- Слайдер --- */
+
+.banner-slider{
+    position: relative;
+    height: 400px;
+    border-radius: 10px;
+    background-color: #3b2a2c;
+    overflow: hidden;
+}
+
+.banner-slider .carousel-inner,
+.banner-slider .carousel-item{
+    height: 100%;
+}
+
+.banner-slide{
+    height: 100%;
+    padding: 0px 70px 0px 55px;
+    color: white;
+}
+
+.banner-slide img{
+    height: 310px;
+}
+
+.banner-brand{
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 50px;
+    color: #f6a944;
+}
+
+.banner-title{
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 55px;
+    margin-bottom: 30px;
+}
+
+.banner-btn{
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 4px;
+    background-color: #f6a944;
+    color: white;
+
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.banner-btn:hover{
+    color: white;
+}
+
+.banner-counter{
+    position: absolute;
+    right: 16px;
+    bottom: 18px;
+    gap: 10px;
+    padding: 4px 14px;
+    border-radius: 30px;
+    background-color: white;
+    font-size: 13px;
+}
+
+.banner-counter button{
+    border: none;
+    padding: 0px 6px;
+    font-size: 18px;
+}
+
+/* --- Спонсори --- */
+
+.sponsor-box{
+    height: 140px;
+    margin-top: 10px;
+    padding: 0px 30px;
+    border-radius: 10px;
+}
+
+.sponsor-title{
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.sponsor-list{
+    width: 75%;
+}
+
+.sponsor-list img{
+    height: 65px;
+}
+
+/* --- Картки справа --- */
+
+.promo-box01{
+    height: 227px;
+    padding: 0px 32px;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+}
+
+.promo-box01 img{
+    width: 112px;
+}
+
+.promo-box01 .banner-btn{
+    padding: 9px 20px;
+    font-size: 9px;
+}
+
+.promo-label{
+    font-size: 9px;
+    line-height: 14px;
+    text-transform: uppercase;
+    color: #999999;
+}
+
+.promo-title{
+    margin: 6px 0px 18px;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 22px;
+}
+
+.promo-box02{
+    position: relative;
+    flex: 1;
+    border-radius: 10px;
+    background-color: #fff3dd;
+    overflow: hidden;
+}
+
+.promo-box02 img{
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 72%;
+    object-fit: contain;
+}
+
+.promo-brand{
+    position: absolute;
+    top: 20px;
+    left: 32px;
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.promo-info{
+    position: absolute;
+    top: 95px;
+    left: 54%;
+}
+
+.promo-name{
+    font-size: 21px;
+    line-height: 28px;
+}
+
+.promo-from{
+    margin-top: 34px;
+    font-size: 9px;
+    color: #777777;
+}
+
+.promo-price{
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    color: #f6a944;
+}
+
