@@ -295,3 +295,252 @@ h3{
     color: #f6a944;
 }
 
+/* --- 4 БЛОК (FLASH SALE, HOT SALE) --- */
+
+.sale-box{
+    display: grid;
+    grid-template-columns: 26% 1fr;
+    margin-bottom: 30px;
+}
+
+/* --- Ліва панель --- */
+
+.sale-panel{
+    display: flex;
+    flex-direction: column;
+    padding: 28px 28px 0px;
+    border-radius: 10px 0px 0px 10px;
+    color: white;
+}
+
+.sale-dark{
+    background-color: #3b2a2c;
+}
+
+.sale-orange{
+    background-color: #F6AB4A;
+}
+
+.sale-heading{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+    font-weight: 500;
+    font-size: 22px;
+}
+
+.sale-panel ul{
+    margin-bottom: 20px;
+}
+
+.sale-panel li{
+    margin-bottom: 10px;
+}
+
+.sale-panel li a{
+    height: 45px;
+    padding: 0px 16px;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+.sale-orange li a{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.sale-panel img{
+    margin-top: auto;
+    margin-left: 47px;
+    width: 180px;
+}
+
+.sale-dark img{
+    margin-bottom: -95px;
+}
+
+.sale-orange img{
+    margin-left: 30px;
+    width: 200px;
+    margin-bottom: -22px;
+}
+
+/* --- Товари --- */
+
+.sale-products{
+    display: flex;
+    gap: 20px;
+    padding: 30px 36px;
+    border: 1px solid #e5e5e5;
+    border-left: none;
+    border-radius: 0px 10px 0px 0px;
+}
+
+.sale-box > .sale-products:last-child{
+    border-radius: 0px 10px 10px 0px;
+}
+
+.sale-card{
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+.sale-fav{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 28px;
+}
+
+.sale-badge{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background-color: #F6AB4A;
+    color: white;
+
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 14px;
+}
+
+.sale-img{
+    display: block;
+    height: 170px;
+    max-width: 100%;
+    margin: 0px auto 20px;
+    object-fit: contain;
+}
+
+.sale-rating{
+    margin-bottom: 6px;
+    font-size: 12px;
+    color: #777777;
+}
+
+.sale-stars{
+    color: #F6AB4A;
+    letter-spacing: 1px;
+}
+
+.sale-star-off{
+    color: #999999;
+}
+
+.sale-name{
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 21px;
+}
+
+.sale-price{
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.sale-orange-text{
+    color: #F6AB4A;
+}
+
+.sale-old{
+    margin-left: 4px;
+    font-weight: 400;
+    font-size: 15px;
+    color: #555555;
+}
+
+.sale-tags{
+    display: flex;
+    gap: 6px;
+    margin: 10px 0px;
+}
+
+.sale-tags span{
+    padding: 3px 8px;
+    border: 1px solid;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+.sale-green{
+    color: #1fa83a;
+    border-color: #bfe6c7;
+}
+
+.sale-red{
+    color: #e5484d;
+    border-color: #f3c3c5;
+}
+
+.sale-gray{
+    color: #333333;
+    border-color: #dddddd;
+}
+
+.sale-stock{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.sale-stock img{
+    width: 14px;
+}
+
+/* --- Newsletter --- */
+
+.sale-news{
+    grid-column: 2;
+    grid-row: 2;
+    height: 100px;
+    padding: 0px 30px;
+    border: 1px solid #e5e5e5;
+    border-top: none;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.sale-news-title{
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+}
+
+.sale-form{
+    display: flex;
+    align-items: center;
+    width: 55%;
+    padding-left: 16px;
+    border: 1px solid #e5e5e5;
+    border-radius: 30px;
+}
+
+.sale-form input{
+    flex: 1;
+    margin-left: 10px;
+    border: none;
+    outline: none;
+    font-size: 13px;
+}
+
+.sale-form button{
+    padding: 14px 26px;
+    border-radius: 30px;
+    background-color: #362526;
+    color: white;
+
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+}
+

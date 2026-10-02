@@ -14,3 +14,9 @@ def contacts(request):
 
 def account_info(request):
     return render(request, 'main/account_info.html')
+
+def login_view(request):
+   return render(request, 'main/login.html')
+
+def register_view(request):
+   return render(request, 'main/register.html')

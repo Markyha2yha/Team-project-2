@@ -21,7 +21,7 @@ ul{
 }
 
 body{
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
 }
 
 button{
@@ -85,7 +85,9 @@ hr{
 }
 
 .margin-container{
-    margin: 0px 311px 0px 311px;
+    max-width: 1298px;
+    margin: 0px auto;
+    padding: 0px 15px;
 }
 
 

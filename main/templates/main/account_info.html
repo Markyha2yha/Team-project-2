@@ -24,6 +24,13 @@
             <p>No gmail</p>
         {% endif %}
 
+        {% if not user.is_authenticated %}
+            <div class="guest-btns">
+                <a href="/login/" class="btn green-btn">Login</a>
+                <a href="/register/" class="btn green-btn">Register</a>
+            </div>
+        {% endif %}
+
 <!--        <ul class="btn-list">-->
 <!--            <li><a href="#">Account info<img src="{% static 'main/images/right-arrow02.png' %}"></a></li>-->
 <!--            <li><a href="#">My order<img src="{% static 'main/images/right-arrow02.png' %}"></a></li>-->
