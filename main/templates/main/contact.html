@@ -1,0 +1,74 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/contact.css' %}">
+{% endblock %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+
+<div class="dark-gray-bg">
+    <div class="light-bg">
+        <h3>Ready to work with us</h3>
+        <p>Contact us for all your questions and opinions</p>
+        <div class="container">
+            <form>
+                <div class="row">
+                    <div class="col">
+                        <label>First name</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col">
+                        <label>Last name</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Email address</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label>Phone number (optional)</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label>Address</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label>Country / Region</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label>Address</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label>Subject (Optional)</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label>Message</label>
+                    <input type="text" class="form-control" placeholder="Note about your order, e.g. special note for delivery ">
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        I want to receive news and updates once in a while. By submitting, I’m agreed to the <span>Terms & Conditions</span>
+                    </label>
+                </div>
+                <button type="submit" class="btn green-btn">Send message</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="dark-gray-bg">
+    <div class="light-bg">
+        <h3>Find us on google map</h3>
+    </div>
+</div>
+
+{% endblock %}

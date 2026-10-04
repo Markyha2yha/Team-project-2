@@ -1,0 +1,26 @@
+.account-box01{
+    display: flex;
+    gap: 79px;
+}
+
+.dark-gray-bg{
+    margin-top: 16px;
+    background-color: #eeeef1;
+    padding: 14px;
+    border-radius: 10px;
+}
+
+.round-edges01{
+    border-radius: 10px;
+}
+
+.light-bg{
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.green-btn{
+    background-color: #1ABA1A !important;
+    color: white !important;
+}

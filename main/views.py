@@ -20,3 +20,7 @@ def login_view(request):
 
 def register_view(request):
    return render(request, 'main/register.html')
+
+def contact_view(request):
+   return render(request, 'main/contact.html')
+

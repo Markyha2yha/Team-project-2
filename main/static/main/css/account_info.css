@@ -1,11 +1,9 @@
 .gray-box{
     background-color: #FAFAFA;
     padding: 20px;
-    margin-top: 16px;
-    max-width: 254px;
 }
 
-.round-edges01{
+.round-edges{
     border-radius: 10px;
 }
 
@@ -42,11 +40,17 @@ p{
 .account-box01{
     display: flex;
     gap: 79px;
-    margin-top: 20px;
 }
 
 .account-info-box{
     width: 965px;
+}
+
+.dark-gray-bg{
+    margin-top: 16px;
+    background-color: #eeeef1;
+    padding: 14px;
+    border-radius: 10px;
 }
 
 .green-btn{
@@ -58,4 +62,10 @@ p{
     display: flex;
     gap: 10px;
     margin-top: 12px;
+}
+
+.light-bg{
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
 }
