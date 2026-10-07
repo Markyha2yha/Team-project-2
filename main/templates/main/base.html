@@ -59,7 +59,25 @@
                 <ul class="nav-list">
                     <li><a href=""><img src="{% static 'main/images/return-symb.png'%}" alt="icon"></a></li>
                     <li><a href=""><img src="{% static 'main/images/heart.png'%}" alt="icon"></a></li>
-                    <li><a href="{% url 'account_info' %}"><img src="{% static 'main/images/person-icon.png'%}" alt="icon"></a></li>
+
+                    <!-- Выпадающее меню аккаунта -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="{% static 'main/images/person-icon.png'%}" alt="icon">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="accountDropdown">
+                            {% if user.is_authenticated %}
+                                <li><h6 class="dropdown-header">Привет, {{ user.first_name|default:user.username }}!</h6></li>
+                                <li><a class="dropdown-item" href="{% url 'account_info' %}">Account info</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
+                            {% else %}
+                                <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+                                <li><a class="dropdown-item" href="{% url 'register' %}">Register</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+
                     <li><a href=""><img src="{% static 'main/images/shopping-basket02.png'%}" alt="icon"></a></li>
                 </ul>
             </nav>

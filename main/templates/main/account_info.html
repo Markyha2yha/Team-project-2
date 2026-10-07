@@ -11,57 +11,62 @@
 
 <div class="dark-gray-bg">
     <div class="light-bg">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
         <div class="account-box01">
-            <div class="gray-box round-edges">
-                <img class="round-edges" src="{% static 'main/images/no-avatar.png' %}" alt="avatar">
-                {% if user.username %}  <!-- Має витягувати з бази даних -->
-                    <h3>{{user.username}}</h3>
+            <div class="gray-box round-edges text-center" style="min-width: 260px;">
+                {% if profile.avatar %}
+                    <img class="round-edges" src="{{ profile.avatar.url }}" alt="avatar" style="width: 140px; height: 140px; object-fit: cover;">
                 {% else %}
-                    <h3>No username</h3>
+                    <img class="round-edges" src="{% static 'main/images/no-avatar.png' %}" alt="avatar" style="width: 140px; height: 140px; object-fit: cover;">
                 {% endif %}
 
-                {% if user.gmail %}
-                    <p>{{gmail}}</p>
-                {% else %}
-                    <p>No gmail</p>
-                {% endif %}
+                <h3 class="mt-3">{{ user.username }}</h3>
+                <p>{{ user.email|default:"No email" }}</p>
 
-                {% if not user.is_authenticated %}
-                    <div class="guest-btns">
-                        <a href="/login/" class="btn green-btn">Login</a>
-                        <a href="/register/" class="btn green-btn">Register</a>
-                    </div>
-                {% endif %}
-        </div>
+                <div class="mt-4">
+                    <a href="{% url 'logout' %}" class="btn btn-outline-danger w-100">Logout</a>
+                </div>
+            </div>
 
-        <div class="account-info-box">
-            <h2>Account info</h2>
-            <div class="container">
-                <form>
-                    <div class="row">
-                        <div class="col">
-                            <label>First name</label>
-                            <input type="text" class="form-control" placeholder="First name">
+            <div class="account-info-box">
+                <h2>Account info</h2>
+                <div class="container">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label>First name</label>
+                                {{ u_form.first_name }}
+                            </div>
+                            <div class="col">
+                                <label>Last name</label>
+                                {{ u_form.last_name }}
+                            </div>
                         </div>
-                        <div class="col">
-                            <label>Last name</label>
-                            <input type="text" class="form-control" placeholder="Last name">
+
+                        <div class="mb-3">
+                            <label>Email address</label>
+                            {{ u_form.email }}
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <label>Email address</label>
-                        <input type="text" class="form-control" placeholder="Email address">
-                    </div>
-                    <div class="mb-3">
-                        <label>Phone number (optional)</label>
-                        <input type="text" class="form-control" placeholder="Phone number">
-                    </div>
-                    <div class="mb-3">
-                        <label>Address</label>
-                        <input type="text" class="form-control" placeholder="Address">
-                    </div>
-                    <button type="submit" class="btn green-btn">Save</button>
-                </form>
+
+                        <div class="mb-3">
+                            <label>Phone number</label>
+                            {{ p_form.phone }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Change avatar</label>
+                            {{ p_form.avatar }}
+                        </div>
+
+                        <button type="submit" class="btn green-btn">Save</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
