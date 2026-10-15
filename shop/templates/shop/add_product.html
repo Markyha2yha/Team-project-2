@@ -1,0 +1,94 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shop/css/shop.css' %}">
+{% endblock %}
+
+{% block title %}Добавить новый корм{% endblock %}
+
+{% block content %}
+<div class="form-box shadow-sm">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Добавление товара</h3>
+        <a href="{% url 'shop:catalog' %}" class="btn btn-outline-secondary btn-sm">&larr; В магазин</a>
+    </div>
+
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="alert alert-success">{{ msg }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label fw-bold">Название корма *</label>
+            {{ form.name }}
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <label class="form-label fw-bold mb-0">Категория животного *</label>
+                    <!-- Кнопка вызова модального окна для создания категории -->
+                    <button type="button" class="btn btn-link btn-sm p-0 text-decoration-none text-success" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                        + Новая категория
+                    </button>
+                </div>
+                {{ form.category }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Количество на складе *</label>
+                {{ form.stock }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Цена ($) *</label>
+                {{ form.price }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Старая цена (необязательно)</label>
+                {{ form.old_price }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Изображение товара</label>
+            {{ form.main_image }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Описание / Состав корма</label>
+            {{ form.description }}
+        </div>
+
+        <button type="submit" class="btn green-btn w-100 py-2 fs-5">Сохранить корм в магазин</button>
+    </form>
+</div>
+
+<!-- Модальное окно создания новой категории животного -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form method="POST" action="{% url 'shop:add_category' %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="addCategoryModalLabel">Создать категорию животного</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <label class="form-label fw-bold">Название категории</label>
+          <input type="text" name="name" class="form-control" placeholder="Например: Хомяки, Черепахи..." required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="submit" class="btn btn-success">Добавить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
