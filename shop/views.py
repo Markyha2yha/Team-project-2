@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
+from django.views.decorators.http import require_POST
 from .models import Product, Category
 from .forms import ProductCreateForm
 
@@ -34,8 +35,6 @@ def shop_catalog(request, category_slug=None):
 
 
 def add_product(request):
-    """Страница добавления корма"""
-    # Если база категорий пуста, автоматически создаем стандартный список животных
     if not Category.objects.exists():
         default_cats = ['Cat (Кошки)', 'Dog (Собаки)', 'Parrot (Попугаи)', 'Fish (Рыбки)', 'Rabbit (Кролики)',
                         'Horse (Лошади)']
@@ -55,7 +54,6 @@ def add_product(request):
 
 
 def add_category(request):
-    """Быстрое добавление новой категории животного пользователем"""
     if request.method == 'POST':
         name = request.POST.get('name', '').strip()
         if name:
@@ -65,3 +63,47 @@ def add_category(request):
             else:
                 messages.info(request, f'Категория "{name}" уже существовала.')
     return redirect('shop:add_product')
+
+
+# --- 1. ПОКУПКА ТОВАРА (остаток уменьшается на 1) ---
+@require_POST
+def buy_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    if product.stock > 0:
+        product.stock -= 1
+        product.save()
+        messages.success(request, f'🎉 Поздравляем с покупкой "{product.name}"! Остаток на складе: {product.stock} шт.')
+    else:
+        messages.error(request, f'Товар "{product.name}" закончился на складе!')
+
+    # Возврат на ту страницу, откуда была совершена покупка
+    return redirect(request.META.get('HTTP_REFERER', 'shop:catalog'))
+
+
+# --- 2. РЕДАКТИРОВАНИЕ ТОВАРА ---
+def edit_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if request.method == 'POST':
+        form = ProductCreateForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Корм "{product.name}" успешно обновлен!')
+            return redirect('shop:catalog')
+    else:
+        form = ProductCreateForm(instance=product)
+
+    return render(request, 'shop/edit_product.html', {
+        'form': form,
+        'product': product,
+    })
+
+
+# --- 3. УДАЛЕНИЕ ТОВАРА С ПЛОЩАДКИ ---
+@require_POST
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    product_name = product.name
+    product.delete()
+    messages.success(request, f'Корм "{product_name}" успешно удален с площадки.')
+    return redirect('shop:catalog')
