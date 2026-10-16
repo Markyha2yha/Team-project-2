@@ -1,0 +1,70 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shop/css/shop.css' %}">
+{% endblock %}
+
+{% block title %}Редактировать: {{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="form-box shadow-sm">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Редактирование корма</h3>
+        <a href="{% url 'shop:catalog' %}" class="btn btn-outline-secondary btn-sm">&larr; Отмена и назад</a>
+    </div>
+
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="alert alert-success">{{ msg }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label fw-bold">Название корма *</label>
+            {{ form.name }}
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Категория животного *</label>
+                {{ form.category }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Остаток на складе *</label>
+                {{ form.stock }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Цена ($) *</label>
+                {{ form.price }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">Старая цена (необязательно)</label>
+                {{ form.old_price }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Текущее / Новое изображение</label>
+            {% if product.main_image %}
+                <div class="mb-2">
+                    <img src="{{ product.main_image.url }}" alt="Preview" style="height: 80px; object-fit: contain; border: 1px solid #ddd; padding: 4px; border-radius: 4px;">
+                </div>
+            {% endif %}
+            {{ form.main_image }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">Описание / Состав корма</label>
+            {{ form.description }}
+        </div>
+
+        <button type="submit" class="btn green-btn w-100 py-2 fs-5">Сохранить изменения</button>
+    </form>
+</div>
+{% endblock %}
