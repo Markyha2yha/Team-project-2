@@ -1,0 +1,141 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shop/css/shop.css' %}">
+{% endblock %}
+
+{% block title %}{{ product.name }} - Swoo PetMall{% endblock %}
+
+{% block content %}
+<div class="py-3">
+    <a href="{% url 'shop:catalog' %}" class="text-muted small text-decoration-none">&larr; Вернуться в каталог</a>
+</div>
+
+{% if messages %}
+    {% for msg in messages %}
+        <div class="alert alert-success">{{ msg }}</div>
+    {% endfor %}
+{% endif %}
+
+<div class="detail-container">
+    <!-- Левая колонка: Фото товара с бейджем -->
+    <div class="detail-img-box">
+        <span class="badge-new position-absolute top-0 start-0 m-3">NEW</span>
+        <button class="card-fav-btn position-absolute top-0 end-0 m-3" title="В избранное">❤</button>
+        {% if product.main_image %}
+            <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
+        {% else %}
+            <img src="{% static 'main/images/product01.png' %}" alt="Placeholder">
+        {% endif %}
+    </div>
+
+    <!-- Средняя колонка: Характеристики корма -->
+    <div class="detail-mid">
+        <div class="text-muted small">⭐⭐⭐⭐⭐ (5 отзывов) • Категория: <b>{{ product.category.name }}</b></div>
+        <h1 class="detail-mid-title">{{ product.name }}</h1>
+        <div class="detail-mid-price">${{ product.price }}</div>
+
+        <!-- Преимущества и состав корма -->
+        <ul class="detail-bullet-list">
+            <li>100% сбалансированное питание премиум-класса с натуральным мясом</li>
+            <li>Обогащен комплексом Омега-3 и Омега-6 для здоровья шерсти и кожи</li>
+            <li>Без искусственных красителей, ароматизаторов и сои</li>
+            <li>Поддерживает правильное пищеварение и иммунную систему питомца</li>
+        </ul>
+
+        <div class="swoo-tags mb-3">
+            <span class="tag-free-ship">FREE SHIPPING</span>
+            <span class="tag-free-gift">FREE GIFT</span>
+        </div>
+
+        <hr>
+
+        <!-- Выбор вкуса корма -->
+        <div class="variant-title">Основной вкус:</div>
+        <div class="variant-boxes">
+            <button type="button" class="variant-btn active">Курица и рис</button>
+            <button type="button" class="variant-btn">Нежная говядина</button>
+            <button type="button" class="variant-btn">Дикий лосось</button>
+        </div>
+
+        <!-- Выбор фасовки (вместо размера памяти) -->
+        <div class="variant-title">Фасовка / Вес упаковки:</div>
+        <div class="variant-boxes">
+            <button type="button" class="variant-btn">400 г</button>
+            <button type="button" class="variant-btn active">1.5 кг</button>
+            <button type="button" class="variant-btn">3 кг</button>
+            <button type="button" class="variant-btn">10 кг</button>
+        </div>
+
+        {% if product.description %}
+            <div class="mt-3">
+                <div class="variant-title">Описание:</div>
+                <p class="text-muted small">{{ product.description }}</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Правая колонка: Блок покупки и безопасного чекаута -->
+    <div class="checkout-card">
+        <div class="checkout-label">ИТОГОВАЯ ЦЕНА:</div>
+        <div class="checkout-total" id="displayTotalPrice">${{ product.price }}</div>
+        
+        <div class="installment-text">
+            <b>Klarna / SwooPay:</b> $15/мес без переплат. <a href="#" class="text-decoration-none">Подробнее</a>
+        </div>
+
+        <div class="mb-3">
+            {% if product.in_stock %}
+                <span class="text-success fw-bold">✔ В наличии (осталось {{ product.stock }} шт.)</span>
+            {% else %}
+                <span class="text-danger fw-bold">✖ Нет в наличии</span>
+            {% endif %}
+        </div>
+
+        <form method="POST" action="{% url 'shop:buy_product' product.id %}">
+            {% csrf_token %}
+            <!-- Селектор количества -->
+            <div class="qty-control">
+                <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
+                <input type="number" name="quantity" id="qtyInput" class="qty-input" value="1" min="1" max="{{ product.stock }}">
+                <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
+            </div>
+
+            <button type="submit" class="btn-add-cart" {% if not product.in_stock %}disabled{% endif %}>
+                КУПИТЬ КОРМ
+            </button>
+            <button type="submit" class="btn-buy-paypal" {% if not product.in_stock %}disabled{% endif %}>
+                КУПИТЬ С PayPal
+            </button>
+        </form>
+
+        <div class="d-flex justify-content-between small text-muted my-2">
+            <span>❤ В избранное</span>
+            <span>⇄ Сравнить</span>
+        </div>
+
+        <div class="safe-checkout-label">Гарантированная безопасная оплата</div>
+        <div class="safe-checkout-icons">
+            <img src="{% static 'main/images/paypal-logo.png' %}" alt="PayPal">
+            <img src="{% static 'main/images/pay2.png' %}" alt="Visa">
+            <img src="{% static 'main/images/pay3.png' %}" alt="Mastercard">
+        </div>
+    </div>
+</div>
+
+<script>
+    const pricePerUnit = parseFloat("{{ product.price }}");
+    const maxStock = parseInt("{{ product.stock }}");
+
+    function changeQty(delta) {
+        const input = document.getElementById('qtyInput');
+        let current = parseInt(input.value) || 1;
+        current += delta;
+        if (current < 1) current = 1;
+        if (maxStock > 0 && current > maxStock) current = maxStock;
+        input.value = current;
+        document.getElementById('displayTotalPrice').textContent = '$' + (current * pricePerUnit).toFixed(2);
+    }
+</script>
+{% endblock %}
