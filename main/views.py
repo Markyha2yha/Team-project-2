@@ -24,3 +24,6 @@ def register_view(request):
 def contact_view(request):
    return render(request, 'main/contact.html')
 
+def checkout_view(request):
+   return render(request, 'main/checkout.html')
+

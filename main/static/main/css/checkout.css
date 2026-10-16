@@ -1,0 +1,32 @@
+.red-text{
+    color: #F1352B;
+    text-decoration: underline;
+}
+
+.dark-gray-bg{
+    margin-top: 16px;
+    background-color: #eeeef1;
+    padding: 14px;
+    border-radius: 10px;
+}
+
+.light-bg{
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.green-btn{
+    background-color: #1ABA1A !important;
+    color: white !important;
+}
+
+.align-gray-box{
+    display: flex;
+}
+
+.gray-box{
+    background-color: #E9E7E8;
+    padding: 20px 49px;
+    border-radius: 10px;
+}
