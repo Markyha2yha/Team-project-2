@@ -1,0 +1,135 @@
+.shop-header {
+    background-color: #3b2a2c;
+    color: white;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shop-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.categories-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #FAFAFA;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+}
+
+.category-chip {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #444;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.category-chip:hover, .category-chip.active {
+    background: #F6AB4A;
+    color: white;
+    border-color: #F6AB4A;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.product-card {
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 16px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.product-card-img-wrap {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.product-card-img-wrap img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.product-cat-tag {
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.product-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin: 6px 0;
+    min-height: 42px;
+}
+
+.product-price-block {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.product-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #F6AB4A;
+}
+
+.product-old-price {
+    font-size: 13px;
+    color: #888;
+    text-decoration: line-through;
+}
+
+.badge-stock {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 11px;
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+.in-stock { background: #e8f7ea; color: #1fa83a; }
+.out-of-stock { background: #feebeb; color: #e5484d; }
+
+.form-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    border: 1px solid #e5e5e5;
+    max-width: 700px;
+    margin: 30px auto;
+}
