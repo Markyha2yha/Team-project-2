@@ -15,8 +15,17 @@ def shop_catalog(request, category_slug=None):
 
     cat_slug = category_slug or request.GET.get('category')
     if cat_slug:
-        selected_category = get_object_or_404(Category, slug=cat_slug)
-        products_qs = products_qs.filter(category=selected_category)
+        # Ищем категорию по слагу или названию
+        selected_category = Category.objects.filter(
+            Q(slug__iexact=cat_slug) | Q(name__icontains=cat_slug)
+        ).first()
+        if selected_category:
+            products_qs = products_qs.filter(category=selected_category)
+        else:
+            # Если точной категории нет, ищем товары по названию/описанию
+            products_qs = products_qs.filter(
+                Q(name__icontains=cat_slug) | Q(description__icontains=cat_slug)
+            )
 
     search_query = request.GET.get('search', '').strip()
     if search_query:
@@ -24,7 +33,6 @@ def shop_catalog(request, category_slug=None):
             Q(name__icontains=search_query) | Q(description__icontains=search_query)
         )
 
-    # Пагинация: 12 товаров на страницу (сетка 4x3)
     paginator = Paginator(products_qs, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -38,7 +46,6 @@ def shop_catalog(request, category_slug=None):
         'selected_category': selected_category,
         'search_query': search_query,
     })
-
 
 def product_detail(request, product_id):
     """Детальная страница товара по Примеру 2"""
