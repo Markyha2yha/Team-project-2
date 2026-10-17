@@ -125,3 +125,6 @@ def account_info(request):
         'profile': profile,
     })
 
+def checkout_view(request):
+   return render(request, 'main/checkout.html')
+
