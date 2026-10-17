@@ -1,0 +1,154 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shop/css/shop.css' %}">
+{% endblock %}
+
+{% block title %}Shopping Cart — Swoo PetMall{% endblock %}
+
+{% block content %}
+<div class="cart-page-wrap">
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="alert {% if msg.tags == 'error' %}alert-danger{% elif msg.tags == 'warning' %}alert-warning{% else %}alert-success{% endif %} alert-dismissible fade show" role="alert">
+                {{ msg }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if cart_items %}
+        <div class="cart-grid-layout">
+            <!-- Левая колонка: Карточки товаров в корзине -->
+            <div class="cart-items-column">
+                {% for item in cart_items %}
+                    <div class="cart-item-card">
+                        <!-- Верхний левый бейдж (скидка или NEW как на макете) -->
+                        <div class="cart-card-top-left">
+                            {% if item.product.discount_amount %}
+                                <span class="cart-badge-save">SAVE ${{ item.product.discount_amount|floatformat:2 }}</span>
+                            {% else %}
+                                <span class="cart-badge-new">NEW</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Верхние правые круглые иконки (В избранное и Удалить из корзины) -->
+                        <div class="cart-card-top-right">
+                            <form method="POST" action="{% url 'shop:toggle_favorite' item.product.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="cart-icon-circle" title="В избранное">♡</button>
+                            </form>
+                            <form method="POST" action="{% url 'shop:remove_from_cart' item.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="cart-icon-circle remove" title="Удалить из корзины">✕</button>
+                            </form>
+                        </div>
+
+                        <div class="cart-card-content">
+                            <!-- Фото товара -->
+                            <div class="cart-item-img-wrap">
+                                <a href="{% url 'shop:product_detail' item.product.id %}">
+                                    {% if item.product.main_image %}
+                                        <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}">
+                                    {% else %}
+                                        <img src="{% static 'main/images/product01.png' %}" alt="Placeholder">
+                                    {% endif %}
+                                </a>
+                            </div>
+
+                            <!-- Инфо о товаре -->
+                            <div class="cart-item-details">
+                                <div class="cart-rating text-muted small">(152)</div>
+                                <h4 class="cart-item-title">
+                                    <a href="{% url 'shop:product_detail' item.product.id %}">{{ item.product.name }}</a>
+                                </h4>
+
+                                <div class="cart-item-price">
+                                    ${{ item.product.price }}
+                                    {% if item.product.old_price %}
+                                        <span class="cart-item-old-price">${{ item.product.old_price }}</span>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Селектор количества: [-]  1  [+] -->
+                                <div class="cart-qty-pill">
+                                    <form method="POST" action="{% url 'shop:update_cart_item' item.id %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="decrease">
+                                        <button type="submit" class="cart-qty-btn">&minus;</button>
+                                    </form>
+
+                                    <span class="cart-qty-val">{{ item.quantity }}</span>
+
+                                    <form method="POST" action="{% url 'shop:update_cart_item' item.id %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="increase">
+                                        <button type="submit" class="cart-qty-btn">&plus;</button>
+                                    </form>
+                                </div>
+
+                                <!-- Теги доставки -->
+                                <div class="cart-item-tags">
+                                    <span class="cart-tag-shipping">FREE SHIPPING</span>
+                                    {% if item.product.price > 50 %}
+                                        <span class="cart-tag-gift">FREE GIFT</span>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Статус наличия -->
+                                <div class="cart-item-stock">
+                                    <span class="status-dot">✔</span> In stock
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Правая колонка: Зелёный блок Order Summary -->
+            <div class="cart-summary-column">
+                <div class="order-summary-box">
+                    <h3 class="summary-title">Order Summary</h3>
+
+                    <div class="summary-row">
+                        <span class="summary-label">Sub Total:</span>
+                        <span class="summary-val">${{ subtotal|floatformat:2 }}</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span class="summary-label">Shipping estimate:</span>
+                        <span class="summary-val">{% if shipping > 0 %}${{ shipping|floatformat:2 }}{% else %}<span class="text-success fw-bold">FREE</span>{% endif %}</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span class="summary-label">Tax estimate:</span>
+                        <span class="summary-val">${{ tax|floatformat:2 }}</span>
+                    </div>
+
+                    <hr class="summary-divider">
+
+                    <div class="summary-row total">
+                        <span class="summary-label-total">ORDER TOTAL:</span>
+                        <span class="summary-val-total">${{ total|floatformat:2 }}</span>
+                    </div>
+
+                    <!-- Зеленая кнопка CHECKOUT -->
+                    <form method="POST" action="{% url 'shop:checkout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-cart-checkout">CHECKOUT</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <!-- Пустая корзина -->
+        <div class="empty-cart-card text-center">
+            <img src="{% static 'main/images/shopping-basket02.png' %}" alt="Empty" style="width: 70px; opacity: 0.3; margin-bottom: 20px;">
+            <h3>Ваша корзина пуста</h3>
+            <p class="text-muted">Похоже, вы ещё не добавили корма для своих любимых питомцев.</p>
+            <a href="{% url 'shop:catalog' %}" class="btn green-btn mt-3 px-4 py-2">Перейти в магазин</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
