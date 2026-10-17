@@ -7,10 +7,31 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from shop.models import Profile
 from .forms import RegisterForm, UserUpdateForm, ProfileUpdateForm
+from shop.models import Product, Favorite
 
 
 def home(request):
-    return render(request, 'main/home.html')
+    # Получаем активные товары из магазина
+    all_products = list(Product.objects.filter(is_active=True).select_related('category').order_by('-created_at'))
+
+    # Товары для блока Hand-picked foods (первые 5 товаров)
+    hand_picked = all_products[:5]
+
+    # Товары для блоков Flash Sale и Hot Sale
+    flash_sale = all_products[5:9] if len(all_products) >= 9 else all_products[:4]
+    hot_sale = all_products[9:13] if len(all_products) >= 13 else all_products[:4]
+
+    # Список ID товаров, которые уже в избранном у пользователя
+    user_fav_ids = []
+    if request.user.is_authenticated:
+        user_fav_ids = list(Favorite.objects.filter(user=request.user).values_list('product_id', flat=True))
+
+    return render(request, 'main/home.html', {
+        'hand_picked_products': hand_picked,
+        'flash_sale_products': flash_sale,
+        'hot_sale_products': hot_sale,
+        'user_fav_ids': user_fav_ids,
+    })
 
 def about(request):
     return render(request, 'main/about.html')
