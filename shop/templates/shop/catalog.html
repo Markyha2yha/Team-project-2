@@ -95,11 +95,11 @@
                 </div>
 
                 <!-- Кнопка покупки -->
-                <form method="POST" action="{% url 'shop:buy_product' product.id %}">
+                <form method="POST" action="{% url 'shop:add_to_cart' product.id %}">
                     {% csrf_token %}
                     <input type="hidden" name="quantity" value="1">
                     <button type="submit" class="btn-swoo-buy" {% if not product.in_stock %}disabled{% endif %}>
-                        {% if product.in_stock %}Купить (1 шт.){% else %}Нет в наличии{% endif %}
+                        {% if product.in_stock %}+ В корзину{% else %}Нет в наличии{% endif %}
                     </button>
                 </form>
 
