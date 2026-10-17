@@ -1,14 +1,28 @@
+from decimal import Decimal
 from django.shortcuts import render, redirect, get_object_or_404
-
-# Create your views here.
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator
-from .models import Product, Category, Favorite
+from functools import wraps
+
+from .models import Product, Category, Favorite, Cart, CartItem
 from .forms import ProductCreateForm
-from decimal import Decimal
-from .models import Cart, CartItem
+
+
+def admin_required(view_func):
+    """Декоратор: доступ только для администраторов (is_staff / is_superuser)"""
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.info(request, 'Для выполнения этого действия необходимо войти с правами администратора.')
+            return redirect('login')
+        if not (request.user.is_staff or request.user.is_superuser):
+            messages.error(request, 'У вас нет прав для добавления, изменения или удаления товаров.')
+            return redirect('shop:catalog')
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
 
 
 def shop_catalog(request, category_slug=None):
@@ -17,14 +31,12 @@ def shop_catalog(request, category_slug=None):
 
     cat_slug = category_slug or request.GET.get('category')
     if cat_slug:
-        # Ищем категорию по слагу или названию
         selected_category = Category.objects.filter(
             Q(slug__iexact=cat_slug) | Q(name__icontains=cat_slug)
         ).first()
         if selected_category:
             products_qs = products_qs.filter(category=selected_category)
         else:
-            # Если точной категории нет, ищем товары по названию/описанию
             products_qs = products_qs.filter(
                 Q(name__icontains=cat_slug) | Q(description__icontains=cat_slug)
             )
@@ -49,8 +61,8 @@ def shop_catalog(request, category_slug=None):
         'search_query': search_query,
     })
 
+
 def product_detail(request, product_id):
-    """Детальная страница товара по Примеру 2"""
     product = get_object_or_404(Product, id=product_id)
     related_products = Product.objects.filter(category=product.category, is_active=True).exclude(id=product.id)[:4]
     is_favorite = request.user.is_authenticated and Favorite.objects.filter(user=request.user, product=product).exists()
@@ -61,10 +73,12 @@ def product_detail(request, product_id):
     })
 
 
+# --- ДЕЙСТВИЯ АДМИНИСТРАТОРА (ДОСТУПНЫ ТОЛЬКО ДЛЯ STAFF / SUPERUSER) ---
+
+@admin_required
 def add_product(request):
     if not Category.objects.exists():
-        default_cats = ['Cat (Кошки)', 'Dog (Собаки)', 'Parrot (Попугаи)', 'Fish (Рыбки)', 'Rabbit (Кролики)',
-                        'Horse (Лошади)']
+        default_cats = ['Cat (Кошки)', 'Dog (Собаки)', 'Parrot (Попугаи)', 'Fish (Рыбки)', 'Rabbit (Кролики)', 'Horse (Лошади)']
         for name in default_cats:
             Category.objects.create(name=name)
 
@@ -80,6 +94,7 @@ def add_product(request):
     return render(request, 'shop/add_product.html', {'form': form})
 
 
+@admin_required
 def add_category(request):
     if request.method == 'POST':
         name = request.POST.get('name', '').strip()
@@ -92,27 +107,7 @@ def add_category(request):
     return redirect('shop:add_product')
 
 
-@require_POST
-def buy_product(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    try:
-        qty = int(request.POST.get('quantity', 1))
-    except ValueError:
-        qty = 1
-
-    if product.stock >= qty and qty > 0:
-        product.stock -= qty
-        product.save()
-        messages.success(request,
-                         f'🎉 Вы успешно приобрели "{product.name}" ({qty} шт.)! На складе осталось: {product.stock} шт.')
-    elif product.stock > 0:
-        messages.error(request, f'Невозможно купить {qty} шт. Доступно только: {product.stock} шт.')
-    else:
-        messages.error(request, f'К сожалению, товар "{product.name}" закончился на складе!')
-
-    return redirect(request.META.get('HTTP_REFERER', 'shop:catalog'))
-
-
+@admin_required
 def edit_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
@@ -127,20 +122,50 @@ def edit_product(request, product_id):
     return render(request, 'shop/edit_product.html', {'form': form, 'product': product})
 
 
+@admin_required
 @require_POST
 def delete_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     product_name = product.name
     product.delete()
-    messages.success(request, f'Корм "{product_name}" успешно удален с площадки.')
+    messages.success(request, f'Корм "{product_name}" успешно удален.')
     return redirect('shop:catalog')
+
+
+# --- ПОКУПКИ И КОРЗИНА (ДОСТУПНЫ ТОЛЬКО АВТОРИЗОВАННЫМ ПОЛЬЗОВАТЕЛЯМ) ---
+
+@require_POST
+def buy_product(request, product_id):
+    """Быстрая покупка"""
+    if not request.user.is_authenticated:
+        messages.info(request, 'Пожалуйста, войдите или зарегистрируйтесь, чтобы оформить покупку.')
+        return redirect('login')
+
+    product = get_object_or_404(Product, id=product_id)
+    try:
+        qty = int(request.POST.get('quantity', 1))
+    except ValueError:
+        qty = 1
+
+    if product.stock >= qty and qty > 0:
+        product.stock -= qty
+        product.save()
+        messages.success(request, f'🎉 Вы успешно приобрели "{product.name}" ({qty} шт.)!')
+    elif product.stock > 0:
+        messages.error(request, f'Невозможно купить {qty} шт. Доступно на складе: {product.stock} шт.')
+    else:
+        messages.error(request, f'К сожалению, товар "{product.name}" закончился на складе!')
+
+    return redirect(request.META.get('HTTP_REFERER', 'shop:catalog'))
+
 
 def toggle_favorite(request, product_id):
     if request.method != 'POST':
         return redirect('shop:product_detail', product_id=product_id)
     if not request.user.is_authenticated:
-        messages.info(request, 'Войдите в аккаунт, чтобы сохранять избранные товары.')
+        messages.info(request, 'Войдите в аккаунт или зарегистрируйтесь, чтобы сохранять избранные товары.')
         return redirect('login')
+
     product = get_object_or_404(Product, id=product_id, is_active=True)
     favorite, created = Favorite.objects.get_or_create(user=request.user, product=product)
     if not created:
@@ -160,43 +185,23 @@ def favorites_list(request):
 
 
 def _get_cart(request):
-    """Возвращает или создает корзину для пользователя или анонимной сессии"""
     if request.user.is_authenticated:
         cart, _ = Cart.objects.get_or_create(user=request.user)
-        # Если до входа была сессионная корзина — объединяем товары
-        if request.session.session_key:
-            session_cart = Cart.objects.filter(session_key=request.session.session_key).first()
-            if session_cart and session_cart != cart:
-                for item in session_cart.items.all():
-                    cart_item, created = CartItem.objects.get_or_create(
-                        cart=cart, product=item.product,
-                        defaults={'quantity': item.quantity}
-                    )
-                    if not created:
-                        cart_item.quantity += item.quantity
-                        cart_item.save()
-                session_cart.delete()
         return cart
-    else:
-        if not request.session.session_key:
-            request.session.create()
-        cart, _ = Cart.objects.get_or_create(session_key=request.session.session_key)
-        return cart
+    return None
 
 
 def cart_detail(request):
-    """Страница корзины со списком товаров и Order Summary"""
+    if not request.user.is_authenticated:
+        messages.info(request, 'Чтобы пользоваться корзиной и оформлять заказы, пожалуйста, войдите или зарегистрируйтесь.')
+        return redirect('login')
+
     cart = _get_cart(request)
     cart_items = cart.items.select_related('product', 'product__category')
 
     subtotal = sum(item.subtotal() for item in cart_items)
-
-    # Расчет доставки: бесплатно при заказе от $100 или пустой корзине, иначе $15
     shipping = Decimal('0.00') if (subtotal >= Decimal('100.00') or subtotal == 0) else Decimal('15.00')
-
-    # Расчет налога (например, 5%)
     tax = (subtotal * Decimal('0.05')).quantize(Decimal('0.01')) if subtotal > 0 else Decimal('0.00')
-
     total = subtotal + shipping + tax
 
     return render(request, 'shop/cart.html', {
@@ -211,7 +216,11 @@ def cart_detail(request):
 
 @require_POST
 def add_to_cart(request, product_id):
-    """Добавление товара в корзину"""
+    # ПРОВЕРКА: незарегистрированный пользователь не может добавлять в корзину
+    if not request.user.is_authenticated:
+        messages.info(request, 'Пожалуйста, войдите или зарегистрируйтесь, чтобы добавлять товары в корзину.')
+        return redirect('login')
+
     product = get_object_or_404(Product, id=product_id, is_active=True)
     cart = _get_cart(request)
 
@@ -245,7 +254,9 @@ def add_to_cart(request, product_id):
 
 @require_POST
 def update_cart_item(request, item_id):
-    """Изменение количества [+] или [-]"""
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     cart = _get_cart(request)
     cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
     action = request.POST.get('action')
@@ -269,7 +280,9 @@ def update_cart_item(request, item_id):
 
 @require_POST
 def remove_from_cart(request, item_id):
-    """Удаление товара из корзины кнопкой крестика"""
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     cart = _get_cart(request)
     cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
     name = cart_item.product.name
@@ -280,19 +293,20 @@ def remove_from_cart(request, item_id):
 
 @require_POST
 def checkout(request):
-    """Оформление заказа"""
+    if not request.user.is_authenticated:
+        messages.info(request, 'Пожалуйста, войдите в аккаунт для оформления заказа.')
+        return redirect('login')
+
     cart = _get_cart(request)
-    if not cart.items.exists():
+    if not cart or not cart.items.exists():
         messages.warning(request, 'Ваша корзина пуста.')
         return redirect('shop:catalog')
 
-    # Списываем остаток товара на складе
     for item in cart.items.all():
         if item.product.stock >= item.quantity:
             item.product.stock -= item.quantity
             item.product.save()
 
-    # Очищаем корзину после успешной покупки
     cart.items.all().delete()
     messages.success(request, '🎉 Поздравляем! Ваш заказ успешно оформлен и передан в доставку.')
     return redirect('shop:cart')

@@ -227,7 +227,10 @@
                 </div>
             {% empty %}
                 <div class="text-center py-4 w-100 text-muted">
-                    В магазине пока нет товаров. <a href="{% url 'shop:add_product' %}" class="text-success fw-bold">Добавить первый товар</a>
+                    В магазине пока нет товаров.
+                    {% if request.user.is_staff %}
+                        <a href="{% url 'shop:add_product' %}" class="text-success fw-bold">Добавить первый товар</a>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

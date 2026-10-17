@@ -8,13 +8,27 @@
 {% block title %}{{ product.name }} - Swoo PetMall{% endblock %}
 
 {% block content %}
-<div class="py-3">
+<div class="py-3 d-flex justify-content-between align-items-center">
     <a href="{% url 'shop:catalog' %}" class="text-muted small text-decoration-none">&larr; Вернуться в каталог</a>
+
+    <!-- Панель управления товаром для администратора -->
+    {% if request.user.is_staff %}
+        <div>
+            <a href="{% url 'shop:edit_product' product.id %}" class="btn btn-outline-secondary btn-sm me-2">✏️ Редактировать</a>
+            <form method="POST" action="{% url 'shop:delete_product' product.id %}" onsubmit="return confirm('Вы действительно хотите удалить этот товар?');" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger btn-sm">🗑️ Удалить</button>
+            </form>
+        </div>
+    {% endif %}
 </div>
 
 {% if messages %}
     {% for msg in messages %}
-        <div class="alert alert-success">{{ msg }}</div>
+        <div class="alert {% if msg.tags == 'error' %}alert-danger{% elif msg.tags == 'info' %}alert-info{% else %}alert-success{% endif %} alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     {% endfor %}
 {% endif %}
 
@@ -22,7 +36,12 @@
     <!-- Левая колонка: Фото товара с бейджем -->
     <div class="detail-img-box">
         <span class="badge-new position-absolute top-0 start-0 m-3">NEW</span>
-        <form method="post" action="{% url 'shop:toggle_favorite' product.id %}" class="position-absolute top-0 end-0 m-3">{% csrf_token %}<button class="card-fav-btn" title="В избранное" aria-label="Добавить или убрать из избранного" style="border:0;cursor:pointer">{% if is_favorite %}❤{% else %}♡{% endif %}</button></form>
+        <form method="post" action="{% url 'shop:toggle_favorite' product.id %}" class="position-absolute top-0 end-0 m-3">
+            {% csrf_token %}
+            <button class="card-fav-btn" title="В избранное" aria-label="Добавить или убрать из избранного" style="border:0;cursor:pointer">
+                {% if is_favorite %}❤{% else %}♡{% endif %}
+            </button>
+        </form>
         {% if product.main_image %}
             <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
         {% else %}
@@ -51,20 +70,31 @@
         <hr>
 
         <div class="variant-title">Варианты вкуса:</div>
-        <div class="variant-boxes">{% for taste in product.taste_options %}<label class="variant-btn"><input type="radio" name="taste_choice" value="{{ taste }}" form="buyForm" {% if forloop.first %}checked{% endif %}> {{ taste }}</label>{% endfor %}</div>
+        <div class="variant-boxes">
+            {% for taste in product.taste_options %}
+                <label class="variant-btn">
+                    <input type="radio" name="taste_choice" value="{{ taste }}" form="buyForm" {% if forloop.first %}checked{% endif %}> {{ taste }}
+                </label>
+            {% endfor %}
+        </div>
 
         <div class="variant-title">Варианты фасовки:</div>
-        <div class="variant-boxes">{% for pack in product.packaging_options %}<label class="variant-btn"><input type="radio" name="packaging_choice" value="{{ pack }}" form="buyForm" {% if pack == product.packaging_options.0 %}checked{% endif %}> {{ pack }}</label>{% endfor %}</div>
-
+        <div class="variant-boxes">
+            {% for pack in product.packaging_options %}
+                <label class="variant-btn">
+                    <input type="radio" name="packaging_choice" value="{{ pack }}" form="buyForm" {% if pack == product.packaging_options.0 %}checked{% endif %}> {{ pack }}
+                </label>
+            {% endfor %}
+        </div>
     </div>
 
-    <!-- Правая колонка: Блок покупки и безопасного чекаута -->
+    <!-- Правая колонка: Блок покупки и чекаута -->
     <div class="checkout-card">
         <div class="checkout-label">ИТОГОВАЯ ЦЕНА:</div>
         <div class="checkout-total" id="displayTotalPrice">${{ product.price }}</div>
 
         <div class="installment-text">
-            <b>Klarna / SwooPay:</b> $15/мес без переплат. <a href="#" class="text-decoration-none">Подробнее</a>
+            <b>Klarna / SwooPay:</b> $15/мес без переплат.
         </div>
 
         <div class="mb-3">
@@ -75,9 +105,9 @@
             {% endif %}
         </div>
 
+        <!-- Форма добавления в корзину -->
         <form id="buyForm" method="POST" action="{% url 'shop:add_to_cart' product.id %}">
             {% csrf_token %}
-            <!-- Селектор количества -->
             <div class="qty-control">
                 <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
                 <input type="number" name="quantity" id="qtyInput" class="qty-input" value="1" min="1" max="{{ product.stock }}">
@@ -89,18 +119,20 @@
             </button>
         </form>
 
-            <button type="submit" class="btn-add-cart" {% if not product.in_stock %}disabled{% endif %}>
-                КУПИТЬ КОРМ
-            </button>
+        <!-- Форма быстрой покупки -->
+        <form method="POST" action="{% url 'shop:buy_product' product.id %}" class="mt-2">
+            {% csrf_token %}
+            <input type="hidden" name="quantity" id="quickBuyQty" value="1">
             <button type="submit" class="btn-buy-paypal" {% if not product.in_stock %}disabled{% endif %}>
-                КУПИТЬ С PayPal
+                КУПИТЬ В 1 КЛИК
             </button>
         </form>
 
-        <div class="d-flex justify-content-between small text-muted my-2">
-            <form method="post" action="{% url 'shop:toggle_favorite' product.id %}">{% csrf_token %}<button type="submit" class="btn btn-link p-0 small text-muted">{% if is_favorite %}♥ В избранном{% else %}♡ В избранное{% endif %}</button></form>
-            <span>⇄ Сравнить</span>
-        </div>
+        {% if not request.user.is_authenticated %}
+            <div class="alert alert-light border mt-3 p-2 text-center small text-muted">
+                🔒 Для покупки, пожалуйста, <a href="{% url 'login' %}" class="text-success fw-bold">войдите</a> или <a href="{% url 'register' %}" class="text-success fw-bold">зарегистрируйтесь</a>.
+            </div>
+        {% endif %}
 
         <div class="safe-checkout-label">Гарантированная безопасная оплата</div>
         <div class="safe-checkout-icons">
@@ -117,11 +149,13 @@
 
     function changeQty(delta) {
         const input = document.getElementById('qtyInput');
+        const quickInput = document.getElementById('quickBuyQty');
         let current = parseInt(input.value) || 1;
         current += delta;
         if (current < 1) current = 1;
         if (maxStock > 0 && current > maxStock) current = maxStock;
         input.value = current;
+        if (quickInput) quickInput.value = current;
         document.getElementById('displayTotalPrice').textContent = '$' + (current * pricePerUnit).toFixed(2);
     }
 </script>
