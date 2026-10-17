@@ -50,6 +50,17 @@
         </div>
 
         <div class="mb-3">
+            <label class="form-label fw-bold">Варианты вкуса</label>
+            {{ form.available_tastes }}
+            <small class="text-muted">Например: Курица и рис, Говядина, Лосось</small>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold">Варианты фасовки</label>
+            {{ form.available_packagings }}
+            <small class="text-muted">Например: 400 г, 1.5 кг, 3 кг, 10 кг</small>
+        </div>
+
+        <div class="mb-3">
             <label class="form-label fw-bold">Текущее / Новое изображение</label>
             {% if product.main_image %}
                 <div class="mb-2">

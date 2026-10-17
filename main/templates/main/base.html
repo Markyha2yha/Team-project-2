@@ -61,7 +61,7 @@
 
                 <ul class="nav-list">
                     <li><a href=""><img src="{% static 'main/images/return-symb.png'%}" alt="icon"></a></li>
-                    <li><a href=""><img src="{% static 'main/images/heart.png'%}" alt="icon"></a></li>
+                    <li><a href="{% url 'shop:favorites' %}" title="Избранное"><img src="{% static 'main/images/heart.png'%}" alt="Избранное"></a></li>
 
                     <!-- Меню аккаунта: возвращаем иконку человечка -->
                     <li class="dropdown">

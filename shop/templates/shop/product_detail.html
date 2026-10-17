@@ -22,7 +22,7 @@
     <!-- Левая колонка: Фото товара с бейджем -->
     <div class="detail-img-box">
         <span class="badge-new position-absolute top-0 start-0 m-3">NEW</span>
-        <button class="card-fav-btn position-absolute top-0 end-0 m-3" title="В избранное">❤</button>
+        <form method="post" action="{% url 'shop:toggle_favorite' product.id %}" class="position-absolute top-0 end-0 m-3">{% csrf_token %}<button class="card-fav-btn" title="В избранное" aria-label="Добавить или убрать из избранного" style="border:0;cursor:pointer">{% if is_favorite %}❤{% else %}♡{% endif %}</button></form>
         {% if product.main_image %}
             <img src="{{ product.main_image.url }}" alt="{{ product.name }}">
         {% else %}
@@ -36,13 +36,12 @@
         <h1 class="detail-mid-title">{{ product.name }}</h1>
         <div class="detail-mid-price">${{ product.price }}</div>
 
-        <!-- Преимущества и состав корма -->
-        <ul class="detail-bullet-list">
-            <li>100% сбалансированное питание премиум-класса с натуральным мясом</li>
-            <li>Обогащен комплексом Омега-3 и Омега-6 для здоровья шерсти и кожи</li>
-            <li>Без искусственных красителей, ароматизаторов и сои</li>
-            <li>Поддерживает правильное пищеварение и иммунную систему питомца</li>
-        </ul>
+        {% if product.description %}
+        <div class="product-description mb-3">
+            <div class="variant-title">Описание:</div>
+            <p class="text-muted small">{{ product.description|linebreaksbr }}</p>
+        </div>
+        {% endif %}
 
         <div class="swoo-tags mb-3">
             <span class="tag-free-ship">FREE SHIPPING</span>
@@ -51,36 +50,19 @@
 
         <hr>
 
-        <!-- Выбор вкуса корма -->
-        <div class="variant-title">Основной вкус:</div>
-        <div class="variant-boxes">
-            <button type="button" class="variant-btn active">Курица и рис</button>
-            <button type="button" class="variant-btn">Нежная говядина</button>
-            <button type="button" class="variant-btn">Дикий лосось</button>
-        </div>
+        <div class="variant-title">Варианты вкуса:</div>
+        <div class="variant-boxes">{% for taste in product.taste_options %}<label class="variant-btn"><input type="radio" name="taste_choice" value="{{ taste }}" form="buyForm" {% if forloop.first %}checked{% endif %}> {{ taste }}</label>{% endfor %}</div>
 
-        <!-- Выбор фасовки (вместо размера памяти) -->
-        <div class="variant-title">Фасовка / Вес упаковки:</div>
-        <div class="variant-boxes">
-            <button type="button" class="variant-btn">400 г</button>
-            <button type="button" class="variant-btn active">1.5 кг</button>
-            <button type="button" class="variant-btn">3 кг</button>
-            <button type="button" class="variant-btn">10 кг</button>
-        </div>
+        <div class="variant-title">Варианты фасовки:</div>
+        <div class="variant-boxes">{% for pack in product.packaging_options %}<label class="variant-btn"><input type="radio" name="packaging_choice" value="{{ pack }}" form="buyForm" {% if pack == product.packaging_options.0 %}checked{% endif %}> {{ pack }}</label>{% endfor %}</div>
 
-        {% if product.description %}
-            <div class="mt-3">
-                <div class="variant-title">Описание:</div>
-                <p class="text-muted small">{{ product.description }}</p>
-            </div>
-        {% endif %}
     </div>
 
     <!-- Правая колонка: Блок покупки и безопасного чекаута -->
     <div class="checkout-card">
         <div class="checkout-label">ИТОГОВАЯ ЦЕНА:</div>
         <div class="checkout-total" id="displayTotalPrice">${{ product.price }}</div>
-        
+
         <div class="installment-text">
             <b>Klarna / SwooPay:</b> $15/мес без переплат. <a href="#" class="text-decoration-none">Подробнее</a>
         </div>
@@ -93,7 +75,7 @@
             {% endif %}
         </div>
 
-        <form method="POST" action="{% url 'shop:buy_product' product.id %}">
+        <form id="buyForm" method="POST" action="{% url 'shop:buy_product' product.id %}">
             {% csrf_token %}
             <!-- Селектор количества -->
             <div class="qty-control">
@@ -111,7 +93,7 @@
         </form>
 
         <div class="d-flex justify-content-between small text-muted my-2">
-            <span>❤ В избранное</span>
+            <form method="post" action="{% url 'shop:toggle_favorite' product.id %}">{% csrf_token %}<button type="submit" class="btn btn-link p-0 small text-muted">{% if is_favorite %}♥ В избранном{% else %}♡ В избранное{% endif %}</button></form>
             <span>⇄ Сравнить</span>
         </div>
 

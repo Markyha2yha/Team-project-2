@@ -23,6 +23,20 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=220, unique=True, blank=True)
     description = models.TextField(blank=True)
+    TASTE_CHOICES = [('chicken_rice', 'Курица и рис'), ('beef', 'Нежная говядина'), ('salmon', 'Дикий лосось')]
+    PACKAGING_CHOICES = [('400 г', '400 г'), ('1.5 кг', '1.5 кг'), ('3 кг', '3 кг'), ('10 кг', '10 кг')]
+    main_taste = models.CharField(max_length=30, choices=TASTE_CHOICES, default='chicken_rice', verbose_name='Основной вкус')
+    packaging = models.CharField(max_length=20, choices=PACKAGING_CHOICES, default='1.5 кг', verbose_name='Фасовка')
+    available_tastes = models.TextField(default='Курица и рис, Нежная говядина, Дикий лосось', verbose_name='Доступные вкусы')
+    available_packagings = models.TextField(default='400 г, 1.5 кг, 3 кг, 10 кг', verbose_name='Доступные фасовки')
+
+    @property
+    def taste_options(self):
+        return [item.strip() for item in self.available_tastes.split(',') if item.strip()]
+
+    @property
+    def packaging_options(self):
+        return [item.strip() for item in self.available_packagings.split(',') if item.strip()]
     price = models.DecimalField(max_digits=10, decimal_places=2)
     old_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     stock = models.PositiveIntegerField(default=0)
@@ -40,6 +54,18 @@ class Product(models.Model):
         return self.stock > 0
     def __str__(self):
         return self.name
+
+class Favorite(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='favorites')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='favorited_by')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')
+
+    def __str__(self):
+        return f'{self.user} — {self.product}'
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
