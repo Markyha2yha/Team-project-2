@@ -447,3 +447,17 @@
     height: 22px;
     object-fit: contain;
 }
+
+/* Favourites page style */
+
+.center-align{
+    text-align: center;
+}
+
+.image-size{
+    width: 400px;
+}
+.image-align{
+    display: flex;
+    justify-content: center;
+}

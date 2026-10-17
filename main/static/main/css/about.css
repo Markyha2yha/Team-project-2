@@ -1,0 +1,13 @@
+.dark-gray-bg{
+    margin-top: 16px;
+    background-color: #eeeef1;
+    padding: 14px;
+    border-radius: 10px;
+}
+
+.light-bg{
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: 5px;
+}

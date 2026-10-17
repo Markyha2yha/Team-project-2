@@ -1,8 +1,45 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
-{% block title %}О нас{% endblock %}
+{% block title %}About Us{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'main/css/about.css' %}">
+{% endblock %}
 
 {% block content %}
-    <h1>Страница о команде</h1>
-    <p>Мы разрабатываем крутой проект в рамках Team-project-2!</p>
+<div class="dark-gray-bg">
+    <div class="light-bg">
+        <h2>Welcome to Swoo PetMail! 🐾</h2>
+        <p>At Swoo PetMail, we believe that pets aren’t
+            just animals—they’re our family. No matter
+            who lives in your home—a playful puppy, a
+            curious kitten, a chirpy bird, or a little fluffy
+            dwarf hamster—our mission is to make caring for them as
+            simple, enjoyable, and convenient as possible.</p>
+    </div>
+    <div class="light-bg">
+        <h2>Our Story</h2>
+        <p>Swoo PetMail was founded in 2020 by passionate
+            pet owners
+            based on a simple idea: every pet deserves high-quality
+            products, and every owner deserves convenient and reliable service.
+            We started with a small selection of the most essential items,
+            and today we’ve grown into a trusted online store
+            for pet lovers across the country.</p>
+    </div>
+    <div class="light-bg">
+        <h2>Why choose us?</h2>
+        <ul>
+            <li>🐶 Care comes first: We offer only products we’d choose for our own furry friends</li>
+            <li>🚚 Fast and reliable delivery: Convenient delivery right to your door, so you never run out of the most important pet supplies.</li>
+            <li>💚 Attentive support: Do you have questions or need advice on what to choose? Our team is always ready to help you find the perfect item for your pet.</li>
+            <li>🔒 Secure shopping: A convenient and secure checkout process for your peace of mind.</li>
+        </ul>
+    </div>
+    <div class="light-bg">
+        <h2>About the team</h2>
+        <p>We're working on a cool project as part of Team-project-2!</p>
+    </div>
+</div>
 {% endblock %}
