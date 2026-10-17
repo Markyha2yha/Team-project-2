@@ -55,6 +55,12 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def discount_amount(self):
+        if self.old_price and self.old_price > self.price:
+            return self.old_price - self.price
+        return None
+
 class Favorite(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='favorites')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='favorited_by')
